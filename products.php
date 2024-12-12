@@ -1,11 +1,4 @@
-<?php
-include 'db.php';
 
-// Fetch products from the database
-$stmt = $conn->prepare("SELECT * FROM products");
-$stmt->execute();
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 <!DOCTYPE html>
 <html>
 <head>
