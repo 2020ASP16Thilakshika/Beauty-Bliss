@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<header>
 		<input type="checkbox" name="" id="toggler">
 		<label for="toggler" class="fas fa-bars"></label>
-		<a href="index.html" class="logo">Beauty<span>Bliss</span></a>
+		<a href="index.php" class="logo">Beauty<span>Bliss</span></a>
 		<nav class="navbar">
 			<a href="index.php">home</a>
 			<a href="products.php">products</a>
