@@ -5,12 +5,12 @@ include 'db.php';
 $user_id = 1;
 
 
-$borrowedItems = $conn->prepare("SELECT products.name FROM purchases 
+$borrowedItems = $connect->prepare("SELECT products.name FROM purchases 
                                  JOIN products ON purchases.product_id = products.id 
                                  WHERE user_id = :user_id AND status = 'borrowed'");
 $borrowedItems->execute(['user_id' => $user_id]);
 
-$receivedItems = $conn->prepare("SELECT products.name, purchases.time_left FROM purchases 
+$receivedItems = $connect->prepare("SELECT products.name, purchases.time_left FROM purchases 
                                  JOIN products ON purchases.product_id = products.id 
                                  WHERE user_id = :user_id AND status = 'received'");
 $receivedItems->execute(['user_id' => $user_id]);
