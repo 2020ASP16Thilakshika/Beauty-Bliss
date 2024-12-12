@@ -6,8 +6,8 @@ define('PASSWORD', 'mariadb');
 define('DBNAME', 'beauty_bliss');
 try {
 	
-	$connect = mysqli_connect(SERVERNAME,USERNAME,PASSWORD,DBNAME);
-	if (!$connect) {
+	$conn = mysqli_connect(SERVERNAME,USERNAME,PASSWORD,DBNAME);
+	if (!$conn) {
 		die("connection failed".mysqli_connect_error());
 	} 
 	else {
