@@ -1,15 +1,23 @@
 <?php
-$servername = "127.0.0.1:3306";
-$username = "root"; 
-$password = "mariadb"; 
-$dbname = "beauty_bliss";
 
+define('SERVERNAME', '127.0.0.1:3306');
+define('USERNAME', 'root');
+define('PASSWORD', 'mariadb');
+define('DBNAME', 'beauty_bliss');
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-    die();
+	
+	$connect = mysqli_connect(SERVERNAME,USERNAME,PASSWORD,DBNAME);
+	if (!$connect) {
+		die("connection failed".mysqli_connect_error());
+	} 
+	else {
+		echo "Connected successfully";
+	}
+} 
+catch (Exception $e) {
+	die($e->getMessage());
 }
+
+
+
 ?>
