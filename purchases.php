@@ -1,10 +1,10 @@
 <?php
 include 'db.php';
 
-// Example user ID for testing (replace with session-based user ID later)
+
 $user_id = 1;
 
-// Fetch borrowed and received items for the user
+
 $borrowedItems = $conn->prepare("SELECT products.name FROM purchases 
                                  JOIN products ON purchases.product_id = products.id 
                                  WHERE user_id = :user_id AND status = 'borrowed'");
