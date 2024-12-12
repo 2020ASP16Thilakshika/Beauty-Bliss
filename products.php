@@ -1,7 +1,7 @@
 <?php
 include 'db.php';
 
-$stmt = $connect->prepare("SELECT * FROM products");
+$stmt = $conn->prepare("SELECT * FROM products");
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
