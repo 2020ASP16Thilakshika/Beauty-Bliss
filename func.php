@@ -15,26 +15,26 @@
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			//echo "Got the POST request from client";
 			
-				$reg = $_POST['id'];
-				$name = $_POST['name'];
-				$age = $_POST['age'];
-				$course = $_POST['course'];
-				AddData($connect,$reg,$name,$age,$course);
+				$full_name = $_POST['full_ name'];
+				$email = $_POST['email'];
+				$password = $_POST['password'];
+				//$course = $_POST['course'];
+				AddData($conn,$full_name,$email,$password);
 	}
 			//echo "Hello";
-function AddData($connect,$reg,$name,$age,$course){
+function AddData($conn,$full_name,$email,$password){
 			try{
 
                 //Quary
-                $sql = "INSERT INTO students VALUES('$reg','$name',$age,'$course')";
+                $sql = "INSERT INTO users VALUES('$full_name','$email','$password')";
                 //execute the quary
-                $result = mysqli_query($connect,$sql);
+                $result = mysqli_query($conn,$sql);
 
                 if ($result){
-                    echo "New student record created successfully";
-                    printTable("students",$connect);
+                    echo "New user record created successfully";
+                    printTable("users",$conn);
                 }else{
-                    die("Error".mysqli_error($connect));
+                    die("Error".mysqli_error($conn));
                 }
 
 		    } catch(Exception $e){
@@ -42,13 +42,13 @@ function AddData($connect,$reg,$name,$age,$course){
 	        }
 		}
     
-function PrintTable($tableName,$connect){
+function PrintTable($tableName,$conn){
             try{
             
                 $sql = "SELECT * FROM $tableName";
             
             
-                $result = mysqli_query($connect,$sql);
+                $result = mysqli_query($conn,$sql);
             
                 if (mysqli_num_rows($result)>0) {
                 
@@ -85,6 +85,6 @@ function PrintTable($tableName,$connect){
             }
         }
 ?>
-<a href="form.php">Go back</a>
+<a href="account.php">Go back</a>
 </body>
 </html>
