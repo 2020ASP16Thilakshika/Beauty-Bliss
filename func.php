@@ -9,7 +9,7 @@
 <body>
 <?php
 
-	require_once 'dbconf.php';	
+	require_once 'db.php';	
 	
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
