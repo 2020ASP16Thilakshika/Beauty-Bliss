@@ -22,19 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 				AddData($conn,$full_name,$email,$password);
 	}
 			//echo "Hello";
-function AddData($conn,$full_name,$email,$password){
+function AddData($connect,$full_name,$email,$password){
 			try{
 
                 //Quary
                 $sql = "INSERT INTO users VALUES('$full_name','$email','$password')";
                 //execute the quary
-                $result = mysqli_query($conn,$sql);
+                $result = mysqli_query($connect,$sql);
 
                 if ($result){
                     echo "New user record created successfully";
-                    printTable("users",$conn);
+                    printTable("users",$connect);
                 }else{
-                    die("Error".mysqli_error($conn));
+                    die("Error".mysqli_error($connect));
                 }
 
 		    } catch(Exception $e){
@@ -42,13 +42,13 @@ function AddData($conn,$full_name,$email,$password){
 	        }
 		}
     
-function PrintTable($tableName,$conn){
+function PrintTable($tableName,$connect){
             try{
             
                 $sql = "SELECT * FROM $tableName";
             
             
-                $result = mysqli_query($conn,$sql);
+                $result = mysqli_query($connect,$sql);
             
                 if (mysqli_num_rows($result)>0) {
                 
