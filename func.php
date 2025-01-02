@@ -14,19 +14,19 @@
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			//echo "Got the POST request from client";
-			
+			    $id = $_POST['id'];
 				$full_name = $_POST['full_ name'];
 				$email = $_POST['email'];
 				$password = $_POST['password'];
 			
-				AddData($conn,$full_name,$email,$password);
+				AddData($conn,$id,$full_name,$email,$password);
 	}
 			
-function AddData($connect,$full_name,$email,$password){
+function AddData($connect,$id,$full_name,$email,$password){
 			try{
 
                 //Quary
-                $sql = "INSERT INTO users VALUES('$full_name','$email','$password')";
+                $sql = "INSERT INTO users VALUES('$id','$full_name','$email','$password')";
                 //execute the quary
                 $result = mysqli_query($connect,$sql);
 
