@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 				$full_name = $_POST['full_ name'];
 				$email = $_POST['email'];
 				$password = $_POST['password'];
-				//$course = $_POST['course'];
+			
 				AddData($conn,$full_name,$email,$password);
 	}
-			//echo "Hello";
+			
 function AddData($connect,$full_name,$email,$password){
 			try{
 
