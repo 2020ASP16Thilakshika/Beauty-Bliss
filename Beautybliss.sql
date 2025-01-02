@@ -1,4 +1,3 @@
-
 CREATE DATABASE beauty_bliss;
 
 
