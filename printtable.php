@@ -17,7 +17,7 @@ require_once 'func.php';
  
  $id = $_GET['id'];
 
-Userdetails($id,$connect);
+ PrintTable($id,$connect);
 
 
 ?>
