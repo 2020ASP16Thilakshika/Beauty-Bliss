@@ -1,3 +1,10 @@
+<?php
+session_start(); // Start the session to manage user login state
+
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['id']); // If there's a session variable 'user_id', the user is logged in
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
