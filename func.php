@@ -142,7 +142,7 @@ catch(Exception $e){
 
        
 	
-       function Jointable($id,$connect){
+     /*  function Jointable($id,$connect){
             try{
             
                 $sql = "SELECT * FROM users INNER JOIN purchases ON users.id = purchases.user_id;
@@ -153,7 +153,7 @@ catch(Exception $e){
                 if (mysqli_num_rows($result)>0) {
                 
             
-              
+                 echo "<table border=1> ";
             
                 $col = mysqli_fetch_fields($result);
             
@@ -177,7 +177,7 @@ catch(Exception $e){
                     echo "No results"; 
                 }
             
-                }
+                }*/
             
             
             catch(Exception $e){
