@@ -1,3 +1,36 @@
+<?php
+session_start();
+
+// Include database connection
+include('db.php');
+
+// Initialize error message variable
+$error_message = "";
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Retrieve form data
+    $full_name = mysqli_real_escape_string($connect, $_POST['full_name']);
+    $email = mysqli_real_escape_string($connect, $_POST['email']);
+    $password = $_POST['password'];
+
+    // Password Hashing (use bcrypt)
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+    // Insert user into the 'users' table
+    $sql = "INSERT INTO users (full_name, email, password) VALUES ('$full_name', '$email', '$hashed_password')";
+
+    if (mysqli_query($connect, $sql)) {
+        // Redirect or show a success message
+        $_SESSION['message'] = "Account created successfully!";
+        header('Location: index.php'); // Redirect to the homepage after successful registration
+    } else {
+        // Error message if the query fails
+        $error_message = "Error: " . mysqli_error($connect);
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,9 +51,14 @@
        </nav>
        
 	</header>
-	<section class="account" id="account">
-		<h1 class="heading">My <span>Account</span></h1>
-		 <div class="login-container">
+
+    <section class="account" id="account">
+    <h1 class="heading">My <span>Account</span></h1>
+        <?php if (!empty($error_message)): ?>
+            <p style="color: red;"><?= $error_message; ?></p>
+        <?php endif; ?>
+
+        <div class="login-container">
         
         <h2>Login to Your Account</h2>
         <form>
