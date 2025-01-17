@@ -1,32 +1,55 @@
 <?php
 session_start();
 
-// Include database connection
-include('db.php');
 
-// Initialize error message variable
-$error_message = "";
+require_once "db.php"; 
 
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve form data
-    $full_name = mysqli_real_escape_string($connect, $_POST['full_name']);
-    $email = mysqli_real_escape_string($connect, $_POST['email']);
-    $password = $_POST['password'];
 
-    // Password Hashing (use bcrypt)
-    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+$fullName = $email = $password = $confirmPassword = "";
+$error = $successMessage = "";
 
-    // Insert user into the 'users' table
-    $sql = "INSERT INTO users (full_name, email, password) VALUES ('$full_name', '$email', '$hashed_password')";
 
-    if (mysqli_query($connect, $sql)) {
-        // Redirect or show a success message
-        $_SESSION['message'] = "Account created successfully!";
-        header('Location: index.php'); // Redirect to the homepage after successful registration
-    } else {
-        // Error message if the query fails
-        $error_message = "Error: " . mysqli_error($connect);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['register'])) {
+        $fullName = trim($_POST['full_name']);
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
+        $confirmPassword = trim($_POST['confirm_password']);
+
+        
+        if (empty($fullName) || empty($email) || empty($password) || empty($confirmPassword)) {
+            $error = "Please fill in all fields.";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = "Please enter a valid email address.";
+        } elseif ($password !== $confirmPassword) {
+            $error = "Passwords do not match.";
+        } else {
+            
+            $sql = "SELECT id FROM user WHERE email = ?";
+            if ($stmt = $conn->prepare($sql)) {
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+                $stmt->store_result();
+
+                if ($stmt->num_rows > 0) {
+                    $error = "An account with this email already exists.";
+                } else {
+                    
+                    $sql = "INSERT INTO user (full_name, email, password) VALUES (?, ?, ?)";
+                    if ($stmt = $conn->prepare($sql)) {
+                        $hashedPassword = password_hash($password, PASSWORD_DEFAULT); 
+                        $stmt->bind_param("sss", $fullName, $email, $hashedPassword);
+
+                        if ($stmt->execute()) {
+                            $successMessage = "Account created successfully! You can now log in.";
+                        } else {
+                            $error = "Something went wrong. Please try again later.";
+                        }
+                    }
+                }
+                $stmt->close();
+            }
+        }
     }
 }
 ?>
@@ -51,17 +74,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        </nav>
        
 	</header>
-
     <section class="account" id="account">
     <h1 class="heading">My <span>Account</span></h1>
-        <?php if (!empty($error_message)): ?>
-            <p style="color: red;"><?= $error_message; ?></p>
-        <?php endif; ?>
 
+        
+        <?php if (!empty($error)): ?>
+            <div class="error"><?php echo $error; ?></div>
+        <?php elseif (!empty($successMessage)): ?>
+            <div class="success"><?php echo $successMessage; ?></div>
+        <?php endif; ?>
+        
+    
         <div class="login-container">
         
         <h2>Login to Your Account</h2>
-        <form>
+        <form  method="POST" action="">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" placeholder="Enter your email" required>
@@ -76,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
      <div class="signup-container">
         <h2>Create a New Account</h2>
-        <form>
+        <form  method="POST" action="">
             <div class="form-group">
                 <label for="fullname">Full Name</label>
                 <input type="text" id="fullname" placeholder="Enter your full name" required>
